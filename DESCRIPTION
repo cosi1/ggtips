@@ -1,7 +1,7 @@
 Package: ggtips
 Type: Package
 Title: Interactive Tooltips for ggplots
-Version: 0.8.8
+Version: 0.8.9
 Authors@R: c(person("Jakub", "Jankiewicz", role = "aut",
                     email = "jakub.jankiewicz@contractors.roche.com"),
              person("Michal", "Jakubczak", role = "ctb",
