@@ -246,3 +246,29 @@ test_that("Warning message will be displayed when key specified in varDict
     regexp = "The following variables are set as keys in varDict but are missing in plot data: notExistingKey1, notExistingKey2"
   )
 })
+
+test_that("NA values in factors are handled correctly", {
+  # prepare an iris dataset with species releveled and NA introduced
+  irisNA <- iris
+  irisNA$Species[irisNA$Species == "versicolor"] <- NA
+  irisNA$Species <- relevel(irisNA$Species, "virginica")
+  varDict <- list(Species = "Species", Sepal.Length = "Sepal Length")
+  # create a ggplot and build it
+  testPlot <- ggplot(irisNA, mapping = aes(x = Sepal.Width, y = Sepal.Length)) +
+    geom_point(mapping = aes(colour = Species))
+  testGrob <- ggplot_build(testPlot)
+  # get tooltip data for the plot
+  fullTooltipData <- ggtips:::getTooltipData(
+    plot = testPlot,
+    built = testGrob,
+    varDict = varDict,
+    plotScales = NULL,
+    callback = NULL
+  )[[1]]
+  fullTooltipData$Species <- as.character(fullTooltipData$Species)
+  expectedTooltips <- irisNA[c("Species", "Sepal.Length")]
+  expectedTooltips$Species <- as.character(expectedTooltips$Species)
+  expectedTooltips$Sepal.Length <- format(expectedTooltips$Sepal.Length)
+  names(expectedTooltips) <- c("Species", "Sepal Length")
+  expect_equal(fullTooltipData, expectedTooltips)
+})

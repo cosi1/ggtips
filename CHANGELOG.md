@@ -1,3 +1,7 @@
+## 0.8.9
+### Bugs
+* fix handling NA values in factor columns
+
 ## 0.8.8
 ### Bugs
 * fix a bug that occurs when there are NAs in x/y mappings (submitted by @zzawadz as #108)
