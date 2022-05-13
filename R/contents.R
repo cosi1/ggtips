@@ -110,7 +110,8 @@ unmapFactors <- function(df, origin, plot, layerData) {
       # Map values in the column to the original values
       column <- df[[name]]
       asFactor <- factor(column, levels = unique(column))
-      df[[name]] <- levels(origColumn)[asFactor]
+      lvls <- as.character(unique(origColumn))
+      df[[name]] <- lvls[asFactor]
     } else {
       if (length(origColumn) == nrow(df)) {
         # Simply add the column from the original data frame
